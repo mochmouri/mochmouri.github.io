@@ -1,0 +1,178 @@
+---
+import { workExperience } from '../data/experience';
+
+const preview = workExperience.slice(0, 2);
+---
+
+<section class="section" id="experience">
+  <div class="container">
+    <div class="exp-header">
+      <span class="section-label">Experience</span>
+      <a href="/experience" class="view-all">Full history →</a>
+    </div>
+
+    <div class="exp-list">
+      {
+        preview.map((role) => (
+          <div class="exp-item">
+            <div class="exp-meta">
+              <span class="exp-period">{role.period}</span>
+              <span class="exp-location">{role.location}</span>
+            </div>
+            <div class="exp-body">
+              <p class="exp-title">{role.title}</p>
+              <p class="exp-company">
+                {role.company}
+                <span class="exp-type">{role.type}</span>
+              </p>
+              <ul class="exp-bullets">
+                {role.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="exp-footer">
+      <a href="/experience" class="btn-link">View full experience & education →</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .exp-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+  }
+
+  .exp-header .section-label {
+    margin-bottom: 0;
+  }
+
+  .view-all {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .view-all:hover {
+    color: var(--accent);
+  }
+
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2.5rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .exp-item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding-top: 0.15rem;
+  }
+
+  .exp-period {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .exp-location {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+
+  .exp-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .exp-company {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .exp-type {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 0.2em 0.55em;
+    border-radius: 2px;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .exp-bullets li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .exp-bullets li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--border-light);
+  }
+
+  .exp-footer {
+    margin-top: 2rem;
+  }
+
+  .btn-link {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .btn-link:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .exp-item {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .exp-meta {
+      flex-direction: row;
+      gap: 1rem;
+    }
+  }
+</style>

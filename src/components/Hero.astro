@@ -1,0 +1,166 @@
+---
+---
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <p class="hero-tagline">Automation & Optimisation Engineer</p>
+      <h1 class="hero-name">Mustapha<br />El Chmouri</h1>
+      <p class="hero-bio">
+        I work at the intersection of engineering, data, and operations — turning complex
+        systems into scalable, revenue-positive workflows.
+      </p>
+      <p class="hero-bio hero-bio--secondary">
+        My strength is translating technical ideas — automation, optimisation, analytics —
+        into practical systems that reduce friction, recover costs, and unlock growth.
+      </p>
+      <div class="hero-actions">
+        <a href="/experience" class="btn btn-primary">View experience</a>
+        <a href="/projects" class="btn btn-ghost">Projects</a>
+      </div>
+    </div>
+
+    <div class="hero-photo-wrap">
+      <!-- Replace the div below with an <img> tag once you have a photo -->
+      <!-- <img src="/profile.jpg" alt="Mustapha El Chmouri" class="hero-photo" /> -->
+      <div class="photo-placeholder" aria-label="Profile photo placeholder">
+        <span>MEC</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    padding-top: var(--nav-h);
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 5rem;
+    align-items: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-name {
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-bio {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.75;
+    max-width: 52ch;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-bio--secondary {
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition:
+      background 0.15s,
+      color 0.15s,
+      border-color 0.15s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #111;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--border-light);
+    color: var(--text-muted);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--text-muted);
+    color: var(--text);
+  }
+
+  /* Photo */
+  .hero-photo-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-photo,
+  .photo-placeholder {
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 3 / 4;
+    border-radius: 3px;
+    object-fit: cover;
+  }
+
+  .photo-placeholder {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+  }
+
+  @media (max-width: 768px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .hero-photo-wrap {
+      order: -1;
+    }
+
+    .hero-photo,
+    .photo-placeholder {
+      max-width: 240px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+    }
+  }
+</style>

@@ -1,0 +1,62 @@
+---
+import { skills } from '../data/skills';
+---
+
+<section class="section" id="skills">
+  <div class="container">
+    <span class="section-label">Skills</span>
+    <div class="skills-grid">
+      {
+        skills.map((group) => (
+          <div class="skill-group">
+            <h3 class="group-name">{group.category}</h3>
+            <ul class="tag-list">
+              {group.items.map((item) => (
+                <li class="tag">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .group-name {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border-light);
+    padding: 0.3em 0.75em;
+    border-radius: 2px;
+    transition:
+      border-color 0.15s,
+      color 0.15s;
+  }
+
+  .tag:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+</style>

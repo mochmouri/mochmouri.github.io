@@ -1,0 +1,118 @@
+---
+---
+
+<section class="section contact" id="contact">
+  <div class="container">
+    <span class="section-label">Contact</span>
+    <div class="contact-inner">
+      <h2 class="contact-heading">Let's talk.</h2>
+      <p class="contact-sub">
+        Open to conversations about operations, automation, data, and anything at that intersection.
+      </p>
+
+      <!-- TODO: replace with your email address -->
+      <a href="mailto:your@email.com" class="email-link">your@email.com</a>
+
+      <div class="social-links">
+        <a
+          href="https://www.linkedin.com/in/chmouri/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+        >
+          LinkedIn
+        </a>
+        <span class="divider">·</span>
+        <a
+          href="https://github.com/mochmouri"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+        >
+          GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <span>© {new Date().getFullYear()} Mustapha El Chmouri</span>
+  </div>
+</footer>
+
+<style>
+  .contact {
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-inner {
+    max-width: 540px;
+  }
+
+  .contact-heading {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .contact-sub {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+
+  .email-link {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition:
+      color 0.15s,
+      border-color 0.15s;
+    margin-bottom: 1.75rem;
+  }
+
+  .email-link:hover {
+    border-color: var(--accent);
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .social-link {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .social-link:hover {
+    color: var(--text);
+  }
+
+  .divider {
+    color: var(--border-light);
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+</style>

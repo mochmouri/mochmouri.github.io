@@ -1,0 +1,109 @@
+---
+---
+
+<section class="section" id="about">
+  <div class="container">
+    <span class="section-label">About</span>
+    <div class="about-grid">
+      <div class="about-main">
+        <p>
+          I work at the intersection of engineering, data, and operations — translating technical
+          ideas into practical systems that reduce friction, recover costs, and unlock growth.
+        </p>
+        <p>
+          I've worked across energy analytics, international operations, and academia. Whether it's
+          automating a returns workflow or designing a robust controller for a grid inverter, my focus
+          is the same: build the right system, not the flashiest one.
+        </p>
+        <p>
+          I'm particularly drawn to roles where technical depth meets business impact — where
+          the quality of the engineering decision directly affects an outcome worth caring about.
+        </p>
+        <p>
+          Always open to conversations with founders, hiring managers, and teams tackling real
+          operational complexity.
+        </p>
+      </div>
+      <div class="about-meta">
+        <div class="meta-block">
+          <span class="meta-label">Education</span>
+          <ul>
+            <li>MSc · Imperial College London</li>
+            <li>BEng · American University of Beirut</li>
+          </ul>
+        </div>
+        <div class="meta-block">
+          <span class="meta-label">Based in</span>
+          <p>London, UK</p>
+        </div>
+        <div class="meta-block">
+          <span class="meta-label">Interests</span>
+          <p>Automation, Ops, Control Systems, AI applications</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.45fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-main p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+  }
+
+  .about-main p:last-child {
+    margin-bottom: 0;
+    color: var(--text-muted);
+  }
+
+  .about-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 0.25rem;
+  }
+
+  .meta-block {
+    border-left: 1px solid var(--border-light);
+    padding-left: 1.25rem;
+  }
+
+  .meta-label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+
+  .meta-block p,
+  .meta-block li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .meta-block ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>

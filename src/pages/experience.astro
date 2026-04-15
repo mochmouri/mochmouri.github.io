@@ -1,0 +1,293 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Contact from '../components/Contact.astro';
+import {
+  workExperience,
+  education,
+  academicProjects,
+  certifications,
+} from '../data/experience';
+---
+
+<Layout
+  title="Experience — Mustapha El Chmouri"
+  description="Work history, education, and academic projects."
+>
+  <Nav />
+  <main class="page-main">
+    <div class="container">
+
+      <!-- Work -->
+      <section class="section">
+        <span class="section-label">Work Experience</span>
+        <div class="exp-list">
+          {
+            workExperience.map((role) => (
+              <div class="exp-item">
+                <div class="exp-meta">
+                  <span class="exp-period">{role.period}</span>
+                  <span class="exp-location">{role.location}</span>
+                </div>
+                <div class="exp-body">
+                  <p class="exp-title">{role.title}</p>
+                  <p class="exp-company">
+                    {role.company}
+                    <span class="exp-type">{role.type}</span>
+                  </p>
+                  <ul class="exp-bullets">
+                    {role.bullets.map((b) => (
+                      <li>{b}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="section">
+        <span class="section-label">Education</span>
+        <div class="edu-list">
+          {
+            education.map((ed) => (
+              <div class="edu-item">
+                <span class="edu-period">{ed.period}</span>
+                <div>
+                  <p class="edu-degree">{ed.degree}</p>
+                  <p class="edu-institution">{ed.institution}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- Academic Projects -->
+      <section class="section">
+        <span class="section-label">Research & Academic Projects</span>
+        <div class="exp-list">
+          {
+            academicProjects.map((proj) => (
+              <div class="exp-item">
+                <div class="exp-meta">
+                  <span class="exp-period">{proj.period}</span>
+                  <span class="exp-location">{proj.institution}</span>
+                  {proj.note && <span class="proj-note">{proj.note}</span>}
+                </div>
+                <div class="exp-body">
+                  <p class="exp-title">{proj.title}</p>
+                  <ul class="exp-bullets">
+                    {proj.bullets.map((b) => (
+                      <li>{b}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- Certifications -->
+      <section class="section">
+        <span class="section-label">Certifications</span>
+        <div class="cert-list">
+          {
+            certifications.map((cert) => (
+              <div class="cert-item">
+                <div>
+                  <p class="cert-title">{cert.title}</p>
+                  <p class="cert-issuer">{cert.issuer} · {cert.date}</p>
+                  {cert.credentialId && (
+                    <p class="cert-id">Credential ID: {cert.credentialId}</p>
+                  )}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+    </div>
+  </main>
+  <Contact />
+</Layout>
+
+<style>
+  .page-main {
+    padding-top: var(--nav-h);
+  }
+
+  /* Shared experience list styles */
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2.5rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .exp-item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding-top: 0.15rem;
+  }
+
+  .exp-period {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .exp-location {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+
+  .proj-note {
+    font-size: 0.72rem;
+    font-style: italic;
+    color: var(--accent);
+    margin-top: 0.25rem;
+  }
+
+  .exp-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .exp-company {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .exp-type {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 0.2em 0.55em;
+    border-radius: 2px;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .exp-bullets li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .exp-bullets li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--border-light);
+  }
+
+  /* Education */
+  .edu-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .edu-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .edu-item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .edu-period {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    padding-top: 0.15rem;
+  }
+
+  .edu-degree {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .edu-institution {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  /* Certifications */
+  .cert-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cert-item {
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .cert-item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cert-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .cert-issuer {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+  }
+
+  .cert-id {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  @media (max-width: 640px) {
+    .exp-item,
+    .edu-item {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+  }
+</style>

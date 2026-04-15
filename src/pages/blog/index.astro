@@ -1,0 +1,160 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Contact from '../../components/Contact.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+---
+
+<Layout
+  title="Blog — Mustapha El Chmouri"
+  description="Writing on automation, operations, engineering, and more."
+>
+  <Nav />
+  <main class="page-main">
+    <div class="container">
+      <section class="section">
+        <span class="section-label">Blog</span>
+
+        {
+          posts.length === 0 ? (
+            <div class="empty-state">
+              <p>No posts yet — check back soon.</p>
+            </div>
+          ) : (
+            <div class="post-list">
+              {posts.map((post) => (
+                <a href={`/blog/${post.slug}`} class="post-item">
+                  <div class="post-meta">
+                    <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+                    {post.data.tags && post.data.tags.length > 0 && (
+                      <ul class="post-tags">
+                        {post.data.tags.map((tag) => (
+                          <li class="tag">{tag}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <div class="post-body">
+                    <h2 class="post-title">{post.data.title}</h2>
+                    {post.data.description && (
+                      <p class="post-desc">{post.data.description}</p>
+                    )}
+                    <span class="read-more">Read →</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </section>
+    </div>
+  </main>
+  <Contact />
+</Layout>
+
+<style>
+  .page-main {
+    padding-top: var(--nav-h);
+  }
+
+  .empty-state {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .empty-state p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .post-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 2.5rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+    text-decoration: none;
+    transition: none;
+  }
+
+  .post-item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .post-item:hover .post-title {
+    color: var(--accent);
+  }
+
+  .post-item:hover .read-more {
+    color: var(--accent);
+  }
+
+  .post-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 0.2rem;
+  }
+
+  time {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    list-style: none;
+  }
+
+  .tag {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border-light);
+    padding: 0.15em 0.55em;
+    border-radius: 2px;
+  }
+
+  .post-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    transition: color 0.15s;
+  }
+
+  .post-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+  }
+
+  .read-more {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  @media (max-width: 580px) {
+    .post-item {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+</style>

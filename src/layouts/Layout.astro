@@ -1,0 +1,153 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Mustapha El Chmouri',
+  description = 'Automation & Optimisation Engineer | Ops, Analytics & AI',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    <!-- Apply theme before first paint to avoid flash -->
+    <script is:inline>
+      (function () {
+        const saved = localStorage.getItem('theme');
+        const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+        document.documentElement.className = saved || preferred;
+      })();
+    </script>
+
+    <!-- Inter from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Analytics: insert Plausible/GA snippet here -->
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  /* ── Variables ─────────────────────────────────────── */
+  :root {
+    --bg: #0c0c0c;
+    --surface: #141414;
+    --surface-2: #1c1c1c;
+    --text: #e5e5e5;
+    --text-muted: #666;
+    --accent: #e8a045;
+    --accent-hover: #f0b060;
+    --accent-dim: rgba(232, 160, 69, 0.12);
+    --border: #1e1e1e;
+    --border-light: #2a2a2a;
+    --nav-bg: rgba(12, 12, 12, 0.9);
+    --max-w: 1100px;
+    --nav-h: 64px;
+  }
+
+  html.light {
+    --bg: #f6f6f4;
+    --surface: #ebebeb;
+    --surface-2: #e0e0de;
+    --text: #111111;
+    --text-muted: #777;
+    --accent: #c97d20;
+    --accent-hover: #b06b18;
+    --accent-dim: rgba(201, 125, 32, 0.1);
+    --border: #dedede;
+    --border-light: #d0d0ce;
+    --nav-bg: rgba(246, 246, 244, 0.9);
+  }
+
+  /* ── Reset ──────────────────────────────────────────── */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family:
+      'Inter',
+      -apple-system,
+      BlinkMacSystemFont,
+      sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  /* ── Utilities ──────────────────────────────────────── */
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .section {
+    padding: 5rem 0;
+  }
+
+  .section-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── Scrollbar ──────────────────────────────────────── */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-light);
+    border-radius: 3px;
+  }
+</style>

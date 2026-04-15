@@ -1,0 +1,210 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+---
+
+<Layout
+  title={`${post.data.title} — Mustapha El Chmouri`}
+  description={post.data.description}
+>
+  <Nav />
+  <main class="page-main">
+    <div class="container">
+      <article class="post">
+        <header class="post-header">
+          <a href="/blog" class="back-link">← Blog</a>
+          <h1 class="post-title">{post.data.title}</h1>
+          <div class="post-meta">
+            <time datetime={post.data.date.toISOString()}>
+              {formatDate(post.data.date)}
+            </time>
+            {
+              post.data.tags && post.data.tags.length > 0 && (
+                <ul class="post-tags">
+                  {post.data.tags.map((tag) => (
+                    <li class="tag">{tag}</li>
+                  ))}
+                </ul>
+              )
+            }
+          </div>
+        </header>
+
+        <div class="prose">
+          <Content />
+        </div>
+      </article>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .page-main {
+    padding-top: var(--nav-h);
+  }
+
+  .post {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 4rem 0 6rem;
+  }
+
+  .post-header {
+    margin-bottom: 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    transition: color 0.15s;
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+
+  .post-title {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    line-height: 1.25;
+    margin-bottom: 1.25rem;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  time {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    list-style: none;
+  }
+
+  .tag {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border-light);
+    padding: 0.15em 0.55em;
+    border-radius: 2px;
+  }
+
+  /* Prose styles */
+  .prose {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .prose :global(h2) {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text);
+    margin: 2.5rem 0 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .prose :global(h3) {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text);
+    margin: 2rem 0 0.75rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1.25rem;
+  }
+
+  .prose :global(a) {
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+
+  .prose :global(a:hover) {
+    border-color: var(--accent);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.4rem;
+  }
+
+  .prose :global(code) {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.875em;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.1em 0.4em;
+    border-radius: 2px;
+    color: var(--text);
+  }
+
+  .prose :global(pre) {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    border-radius: 3px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .prose :global(pre code) {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.875rem;
+  }
+
+  .prose :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  .prose :global(img) {
+    border-radius: 3px;
+    margin: 1.5rem 0;
+  }
+</style>
