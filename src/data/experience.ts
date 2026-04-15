@@ -33,7 +33,7 @@ export const workExperience: Role[] = [
     title: 'International Operations & Automation Lead',
     company: 'Linjer',
     type: 'Full-time',
-    period: 'Sep 2025 – Jan 2026',
+    period: 'Sep 2025 – Present',
     location: 'London, UK · Hybrid',
     bullets: [
       'Led CX and operations automation initiatives, reducing manual handling time per task by ~40% and enabling scalable returns, refunds, and exception workflows across regions.',
@@ -69,9 +69,9 @@ export const workExperience: Role[] = [
 
 export const education: Education[] = [
   {
-    degree: 'MSc — Advanced Electrical & Electronic Engineering',
+    degree: 'MSc — Control and Optimisation',
     institution: 'Imperial College London',
-    period: '2023 – 2024',
+    period: '2023 – 2025',
   },
   {
     degree: 'BEng — Electrical & Computer Engineering',
