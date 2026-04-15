@@ -1,0 +1,378 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const allProjects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const { project } = Astro.props;
+const { Content, headings } = await project.render();
+
+const currentIndex = allProjects.findIndex((p) => p.slug === project.slug);
+const prev = currentIndex > 0 ? allProjects[currentIndex - 1] : null;
+const next = currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : null;
+
+const tocHeadings = headings.filter((h) => h.depth === 2);
+---
+
+<Layout
+  title={`${project.data.title} — Mustapha El Chmouri`}
+  description={project.data.description}
+>
+  <Nav />
+  <main class="page-main">
+    <div class="container">
+      <article class="project-article">
+
+        <header class="project-header">
+          <a href="/projects" class="back-link">← Projects</a>
+          <span class="project-type">{project.data.type}</span>
+          <h1 class="project-title">{project.data.title}</h1>
+          {project.data.status === 'work-in-progress' && (
+            <span class="wip-badge">Work in progress</span>
+          )}
+          <p class="project-desc">{project.data.description}</p>
+
+          {(project.data.github || project.data.demo) && (
+            <div class="project-links">
+              {project.data.demo && (
+                <a href={project.data.demo} target="_blank" rel="noopener noreferrer" class="link-btn link-btn--primary">
+                  Live demo ↗
+                </a>
+              )}
+              {project.data.github && (
+                <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="link-btn">
+                  GitHub ↗
+                </a>
+              )}
+            </div>
+          )}
+        </header>
+
+        {tocHeadings.length > 0 && (
+          <nav class="toc" aria-label="Contents">
+            <span class="toc-label">Contents</span>
+            <ol class="toc-list">
+              {tocHeadings.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`} class="toc-link">{h.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        <nav class="project-nav" aria-label="Project navigation">
+          <div class="nav-prev">
+            {prev && (
+              <a href={`/projects/${prev.slug}`} class="nav-link">
+                <span class="nav-dir">← Previous</span>
+                <span class="nav-title">{prev.data.title}</span>
+              </a>
+            )}
+          </div>
+          <div class="nav-next">
+            {next && (
+              <a href={`/projects/${next.slug}`} class="nav-link nav-link--right">
+                <span class="nav-dir">Next →</span>
+                <span class="nav-title">{next.data.title}</span>
+              </a>
+            )}
+          </div>
+        </nav>
+
+      </article>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .page-main {
+    padding-top: var(--nav-h);
+  }
+
+  .project-article {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 0 6rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    transition: color 0.15s;
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+
+  .project-type {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .project-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .wip-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border-light);
+    padding: 0.2em 0.55em;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .project-desc {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    max-width: 60ch;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    color: var(--text-muted);
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .link-btn:hover {
+    border-color: var(--text-muted);
+    color: var(--text);
+  }
+
+  .link-btn--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #111;
+  }
+
+  .link-btn--primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: #111;
+  }
+
+  /* TOC */
+  .toc {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 3rem;
+    background: var(--surface);
+  }
+
+  .toc-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    counter-reset: toc;
+  }
+
+  .toc-list li {
+    counter-increment: toc;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .toc-list li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+    min-width: 1.5rem;
+  }
+
+  .toc-link {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .toc-link:hover {
+    color: var(--accent);
+  }
+
+  /* Prose */
+  .prose {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .prose :global(h2) {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text);
+    margin: 3rem 0 1rem;
+    letter-spacing: -0.01em;
+    padding-top: 0.5rem;
+  }
+
+  .prose :global(h3) {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin: 2rem 0 0.75rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1.25rem;
+  }
+
+  .prose :global(a) {
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+
+  .prose :global(a:hover) {
+    border-color: var(--accent);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .prose :global(strong) {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .prose :global(em) {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .prose :global(code) {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.875em;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.1em 0.4em;
+    border-radius: 2px;
+    color: var(--text);
+  }
+
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  /* Prev / Next */
+  .project-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-prev {
+    display: flex;
+  }
+
+  .nav-next {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-decoration: none;
+    max-width: 240px;
+  }
+
+  .nav-link--right {
+    align-items: flex-end;
+  }
+
+  .nav-dir {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .nav-title {
+    font-size: 0.9rem;
+    color: var(--text);
+    transition: color 0.15s;
+  }
+
+  .nav-link:hover .nav-dir,
+  .nav-link:hover .nav-title {
+    color: var(--accent);
+  }
+</style>
