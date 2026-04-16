@@ -22,7 +22,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
         <div class="projects-grid">
           {projects.map((project) => (
             <a href={`/projects/${project.slug}`} class="project-card">
-              <div class="card-thumb">
+              <div class={`card-thumb${project.data.thumbnail ? ' card-thumb--filled' : ''}`}>
                 {project.data.thumbnail
                   ? <img src={project.data.thumbnail} alt={project.data.title} class="thumb-img" />
                   : <span class="thumb-label">{project.data.type}</span>
@@ -95,10 +95,14 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
     opacity: 0.4;
   }
 
+  .card-thumb--filled::before {
+    display: none;
+  }
+
   .thumb-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
   }
 

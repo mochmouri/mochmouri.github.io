@@ -5,6 +5,7 @@ description: "A Firefox extension that fetches Arabic subtitles from OpenSubtitl
 order: 3
 tags: [Firefox, JavaScript, OpenSubtitles API]
 github: https://github.com/mochmouri/subtitlefetch
+thumbnail: /projects/subtitle-fetch-thumbnail.jpg
 draft: false
 ---
 
