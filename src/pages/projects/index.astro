@@ -23,7 +23,10 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
           {projects.map((project) => (
             <a href={`/projects/${project.slug}`} class="project-card">
               <div class="card-thumb">
-                <span class="thumb-label">{project.data.type}</span>
+                {project.data.thumbnail
+                  ? <img src={project.data.thumbnail} alt={project.data.title} class="thumb-img" />
+                  : <span class="thumb-label">{project.data.type}</span>
+                }
               </div>
               <div class="card-body">
                 <span class="project-type">{project.data.type}</span>
@@ -90,6 +93,13 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
       linear-gradient(90deg, var(--border) 1px, transparent 1px);
     background-size: 24px 24px;
     opacity: 0.4;
+  }
+
+  .thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .thumb-label {

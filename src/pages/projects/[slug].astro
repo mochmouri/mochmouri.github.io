@@ -319,6 +319,14 @@ const tocHeadings = headings.filter((h) => h.depth === 2);
     color: var(--text);
   }
 
+  .prose :global(img) {
+    max-width: 100%;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+    display: block;
+  }
+
   .prose :global(hr) {
     border: none;
     border-top: 1px solid var(--border);

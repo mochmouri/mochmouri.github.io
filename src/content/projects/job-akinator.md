@@ -3,29 +3,37 @@ title: Job Akinator
 type: "Data / Education"
 description: "A career-matching quiz for students. Answer 23 questions about your interests and strengths — get your top 3 profession matches, ranked by similarity score."
 order: 4
+status: "work-in-progress"
 tags: [React, Supabase, Cosine Similarity, Vite]
 github: https://github.com/mochmouri/jobakinator
 demo: https://mochmouri.github.io/jobakinator/
+thumbnail: /projects/job-akinator-thumbnail.png
 draft: false
 ---
 
 ## Overview
 
-Most career quizzes produce vague personality types. Job Akinator works differently: it builds a numeric profile of your interests and self-assessed strengths, then compares that profile against ~75 professions using cosine similarity to find your three best matches — each with a percentage score.
+Most career quizzes produce vague personality types. Job Akinator works differently: it builds a numeric profile of your interests and self-assessed strengths, then compares that profile against ~75 professions using cosine similarity to find your three best matches, each with a percentage score.
 
 If none of the results fit, you can submit a description of the missing career. It gets saved to a shared database, with the intent that repeated similar submissions surface gaps in the profession pool.
 
+*This project is a work in progress. I am still iterating on the questions and traits, studying the relationships between each.*
+
 ## Problem Statement
 
-Generic guidance tools tend to produce generic results. The goal was a matching mechanism precise enough to distinguish between, say, someone who is analytically strong but socially cautious versus the reverse — even if both might fall under the same broad archetype in a cruder system.
+Generic guidance tools tend to produce generic results. The goal was a matching mechanism precise enough to distinguish between, say, someone who is analytically strong but socially cautious versus the reverse, even if both might fall under the same broad archetype in a cruder system. 
+
+The ultimate goal is developing a tool that would help highschoolers, or anyone who feels stuck in life, find their true calling. 
 
 ## How It Works
 
-Each profession is represented as a vector across 10 trait dimensions: analytical, creative, social, technical, physical, entrepreneurial, structured, humanitarian, outdoors, and leadership.
+Each profession is represented as a vector across 10 trait dimensions: analytical, creative, social, technical, physical, entrepreneurial, structured, humanitarian, outdoors, and leadership. This is building on the approach taken by O*NET (Occupational Information Network).
 
-The quiz runs in two parts: 13 multiple-choice interest questions (each answer shifts specific trait scores) followed by 10 self-confidence questions rated on a three-point scale (one trait each). The two sets of scores are normalised and blended — interests weighted at 65%, self-assessed confidence at 35% — to produce a final user profile vector.
+The quiz runs in two parts: 13 multiple-choice interest questions (each answer shifts specific trait scores) followed by 10 self-confidence questions rated on a three-point scale (one trait each). The two sets of scores are normalised and blended (interests weighted at 65%, self-assessed confidence at 35%) to produce a final user profile vector.
 
-Cosine similarity then ranks all professions by how closely their vectors align with the user's. Using cosine similarity rather than a raw score sum means the match reflects the *shape* of your profile, not just absolute levels — someone with a moderate but proportionally consistent profile can still score well against the right profession.
+Cosine similarity then ranks all professions by how closely their vectors align with the user's. Using cosine similarity rather than a raw score sum means the match reflects the *shape* of your profile, not just absolute levels. So someone with a moderate but proportionally consistent profile can still score well against the right profession.
+
+![Results view showing top profession matches with percentage scores](/projects/job-akinator-result.png)
 
 ## Components
 

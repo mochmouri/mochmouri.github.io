@@ -3,20 +3,22 @@ title: SceneSkipper
 type: "AI / Browser Extension"
 description: "A Firefox extension that automatically detects and skips explicit scenes on streaming sites using real-time AI subtitle analysis."
 order: 2
+status: "work-in-progress"
 tags: [Gemini, Firefox, JavaScript]
 github: https://github.com/mochmouri/sceneskipper
+thumbnail: /projects/scene-skip-thumbnail.png
 draft: false
 ---
 
 ## Overview
 
-Watching a film with family, or in a context where explicit content is unwanted, usually means either researching the film beforehand or reaching for the remote at the wrong moment. SceneSkipper handles it automatically — it runs in the background while you watch and skips flagged scenes without intervention.
+Watching a film with family, or in a context where explicit content is unwanted, usually means either researching the film beforehand or reaching for the remote at the wrong moment. SceneSkipper handles it automatically; it runs in the background while you watch and skips flagged scenes without intervention.
 
 Supported sites: Netflix, Amazon Prime Video, Disney+, Max, Hulu, Peacock.
 
 ## Problem Statement
 
-Services like DoesTheDogDie flag what a film contains, but no publicly available API provides precise scene-level timestamps. The data doesn't exist in a queryable, structured form — which is the core constraint this project works around.
+Services like DoesTheDogDie flag what a film contains, but no publicly available API provides precise scene-level timestamps. The data doesn't exist in a queryable, structured form, which is the core constraint this project works around.
 
 ## How It Works
 
@@ -32,6 +34,8 @@ Calls are spaced to stay within API rate limits while keeping the skip responsiv
 - **Skip executor** — triggers a video seek on a positive classification
 - **Popup** — toggle, sensitivity setting, and skip activity monitor
 
+![SceneSkipper subtitle analysis in action](/projects/scene-skip-analysis.png)
+
 ## Learnings
 
 The main limitation is the absence of a structured scene-timestamp database. Every decision is made in real time from subtitle text alone, which means accuracy depends entirely on how descriptive the subtitles are. Some are detailed; many are sparse. This causes occasional over-skipping or under-skipping.
@@ -44,3 +48,4 @@ A community-contributed timestamp database — keyed by film ID, independent of 
 - User-configurable sensitivity levels
 - Open-source timestamp database as a ground-truth layer, reducing API calls to edge cases
 - Safari extension for Apple TV+ support
+
