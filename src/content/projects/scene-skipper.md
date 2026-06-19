@@ -22,30 +22,32 @@ Services like DoesTheDogDie flag what a film contains, but no publicly available
 
 ## How It Works
 
-As a video plays, the extension intercepts the subtitle data being loaded by the streaming site. It maintains a sliding window of subtitle lines around the current playback position and sends that context to Gemini, which classifies whether the scene should be skipped. If the response is positive, the extension seeks the video forward past the segment.
+When a streaming site loads a subtitle (`.vtt`) file, the extension intercepts it via the background service worker. It sends the full subtitle text to Gemini 2.5 Flash-Lite in a single API call, which returns a list of flagged scenes with start/end timestamps, a confidence tier, and a plain-English reason for each. Results are cached by film title so the API is never called twice for the same film.
 
-Calls are spaced to stay within API rate limits while keeping the skip responsive.
+During playback, the content script monitors the video timestamp against the flagged list:
+- **High confidence** — skips silently with no interruption
+- **Medium / low confidence** — pauses playback and shows a banner with Skip and Continue watching options
 
 ## Components
 
-- **Subtitle interceptor** — hooks into the streaming site's subtitle mechanism via content script
-- **Context window** — rolling buffer of subtitle lines around the current timestamp
-- **Gemini classifier** — receives subtitle context, returns skip/no-skip decision
-- **Skip executor** — triggers a video seek on a positive classification
-- **Popup** — toggle, sensitivity setting, and skip activity monitor
+- **Subtitle interceptor** — service worker intercepts the `.vtt` file loaded by the streaming site
+- **Gemini analyser** — sends full subtitle text once; receives all flagged scenes as structured JSON (timestamp range, confidence, reason)
+- **Skip executor** — content script monitors playback position and seeks past flagged scenes or surfaces a banner
+- **History tab** — lists every film analysed with per-scene breakdown: timestamp range, confidence level, and reason
+- **Settings tab** — configurable thresholds for auto-skip (high confidence) and banner display (medium/low)
 
 ![SceneSkipper subtitle analysis in action](/projects/scene-skip-analysis.png)
 
 ## Learnings
 
-The main limitation is the absence of a structured scene-timestamp database. Every decision is made in real time from subtitle text alone, which means accuracy depends entirely on how descriptive the subtitles are. Some are detailed; many are sparse. This causes occasional over-skipping or under-skipping.
+The main limitation is subtitle quality. The extension cannot analyse video directly — it works only when subtitles are enabled, and accuracy depends on how descriptive those subtitles are. Dialogue-heavy scenes are detected reliably; purely visual content with no audio cues in the subtitles may not be.
 
-A community-contributed timestamp database — keyed by film ID, independent of subtitles — would make decisions far more precise and reduce reliance on real-time AI inference. That infrastructure doesn't exist yet as an open resource.
+Some services use TTML/XML subtitle formats rather than VTT, which are not yet intercepted. Caching by film title also breaks if a title changes mid-session (e.g. episode page titles updating dynamically).
 
 ## Potential Next Steps
 
 - Chrome and Edge support
-- User-configurable sensitivity levels
 - Open-source timestamp database as a ground-truth layer, reducing API calls to edge cases
+- TTML/XML subtitle format support
 - Safari extension for Apple TV+ support
 

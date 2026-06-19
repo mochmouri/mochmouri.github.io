@@ -33,9 +33,10 @@ Everything runs client-side, so no backend, no account, no server. The user supp
 
 ## Components
 
-- **Itinerary generator** — Gemini prompt returning structured JSON of daily stops with coordinates
-- **Route map** — React-Leaflet with CartoDB Dark Matter tiles; stops as numbered markers
-- **Prayer times panel** — Aladhan API, timezone-aware, displayed per day alongside the route
+- **Itinerary generator** — Gemini prompt returning structured JSON of daily stops with coordinates; configurable trip start date
+- **Route map** — React-Leaflet with CartoDB Dark Matter tiles; stops as numbered markers; Google Maps export per day
+- **Prayer times panel** — Aladhan API, timezone-aware, displayed per day alongside the route; configurable calculation method
+- **Prayer spaces** — mosques and musallas surfaced alongside each day's route
 - **Halal guide** — destination brief on food availability, dress norms, and practical tips
 - **Restaurant suggestions** — Gemini-sourced, filtered to each day's geographic area
 
@@ -54,4 +55,4 @@ Timezone-aware date handling across the Aladhan API and the user's local time al
 - Filter accommodation by halal certification or proximity to mosques
 - Support multi-city trips
 - Offline fallback for prayer times
-- Develop a more intuitive UI (website, especially the landing page, and exported PDF)
+- Exportable PDF itinerary
